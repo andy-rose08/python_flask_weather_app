@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Weather App</title>
+    <link
+      href="{{url_for('static',filename='css/styles.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-blue-200 min-h-screen flex flex-col items-center justify-center"
+  >
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+      <div class="mb-4">
+        <h1 class="font-bold text-xl mb-2 text-center">
+          Get Weather Conditions
+        </h1>
+      </div>
+
+      <form action="/weather" class="mb-4">
+        <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
+          <input
+            class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+            type="text"
+            name="city"
+            placeholder="Please Enter a City Name"
+            id="city"
+          />
+          <button
+            class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+            type="submit"
+          >
+            Check Weather Conditions
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
