@@ -62,6 +62,9 @@ def get_forecast():
         current_page=page,
     )
 
+@app.route("/city404")
+def all_routes():
+    return render_template("city404.html")
 
 
 if __name__ == "__main__":
