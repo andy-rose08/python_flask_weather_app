@@ -19,11 +19,12 @@ freezer = Freezer(app)
 def index():
     return render_template("index.html")
 
+
 @app.route("/weather")
 def get_weather():
     city = request.args.get("city")
 
-    if not bool(city.strip()):
+    if city is None or not bool(city.strip()):
         city = get_location(request.remote_addr)
 
     weather_data = get_current_weather(city)
@@ -44,6 +45,7 @@ def get_weather():
         feels_like=f"{weather_data['main']['feels_like']:.1f}",
         icon_code=icon_url,
     )
+
 
 @app.route("/forecast")
 def get_forecast():
