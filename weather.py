@@ -32,10 +32,9 @@ def get_location(ip_address):
 
 def get_alerts(city="San Jose"):
     request_url = f'https://api.openweathermap.org/data/2.5/onecall?q={city}&appid={os.getenv("API_KEY")}&units=metric'
-
     alert_data = requests.get(request_url).json()
-
     return alert_data
+
 
 
 if __name__ == "__main__":
