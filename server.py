@@ -3,11 +3,15 @@ from flask import Flask, render_template, request
 
 from weather import get_current_weather, get_location, get_forecast as get_weather_forecast
 
+from flask_frozen import Freezer
+
 from waitress import serve
 
+import sys
 
 app = Flask(__name__)
 
+freezer = Freezer(app)
 
 
 @app.route("/")
@@ -82,4 +86,7 @@ def get_alerts():
 
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=8000)
+    if len(sys.argv) > 1 and sys.argv[1] == "build":
+        freezer.freeze()  # Build the static files
+    else:
+        serve(app, host="0.0.0.0", port=8000)  # Run the application
