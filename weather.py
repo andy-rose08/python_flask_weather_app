@@ -20,10 +20,8 @@ def get_location(city):
     location_data = requests.get(request_url).json()
     return location_data
 
-def get_alerts(lat="37.7749", lon="-122.4194"):
-    request_url = f'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&appid={os.getenv("API_KEY")}&units=metric'
-    alert_data = requests.get(request_url).json()
-    return alert_data
+
+
 
 if __name__ == "__main__":
     pprint("\n*** Get Current Weather Conditions ***\n")
@@ -31,4 +29,6 @@ if __name__ == "__main__":
     if not bool(city.strip()):
         city = "San Jose"
     weather_data = get_current_weather(city)
+    
     pprint(weather_data)
+

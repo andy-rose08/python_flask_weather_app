@@ -12,12 +12,58 @@
   <body
     class="bg-blue-200 min-h-screen flex flex-col items-center justify-center"
   >
+    <div class="mb-4">
+      <a
+        href="{{ url_for('index') }}"
+        class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+        >Home</a
+      >
+      <a
+        href="{{ url_for('get_weather', city=title) }}"
+        class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+        >Back to Weather</a
+      >
+    </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
       <div class="mb-4">
         <h1 class="font-bold text-xl mb-2">{{title}}'s Forecast</h1>
         {% for item in forecast %}
-          <p class="text-gray-700 text-base">{{item.dt_txt}}: {{item.weather[0].description}}, {{item.main.temp}} °C</p>
+        <div class="forecast-item">
+          <img
+            src="http://openweathermap.org/img/w/{{item.weather[0].icon}}.png"
+            alt="{{item.weather[0].description}}"
+          />
+          <p class="text-gray-700 text-base">
+            {{item.dt_txt}}: {{item.weather[0].description}}, {{item.main.temp}}
+            °C
+          </p>
+        </div>
         {% endfor %}
+        <div class="flex justify-between mt-4">
+          {% if current_page > 1 %}
+          <a
+            href="{{ url_for('get_forecast', page=current_page-1) }}"
+            class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+            >Previous</a
+          >
+          {% else %}
+          <span
+            class="bg-blue-300 text-black font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed"
+            >Previous</span
+          >
+          {% endif %} {% if current_page < total_pages %}
+          <a
+            href="{{ url_for('get_forecast', page=current_page+1) }}"
+            class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded"
+            >Next</a
+          >
+          {% else %}
+          <span
+            class="bg-blue-600 text-black font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed"
+            >Next</span
+          >
+          {% endif %}
+        </div>
       </div>
     </div>
   </body>
