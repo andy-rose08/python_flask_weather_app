@@ -51,7 +51,7 @@ def get_weather():
 def get_forecast():
     city = request.args.get("city")
 
-    if not bool(city.strip()):
+    if city is None or not bool(city.strip()):
         city = "San Jose"
 
     forecast_data = get_weather_forecast(city)
@@ -71,7 +71,7 @@ def get_forecast():
 def get_alerts():
     city = request.args.get("city")
 
-    if not bool(city.strip()):
+    if city is None or not bool(city.strip()):
         city = "San Jose"
 
     alert_data = get_alerts(city)
