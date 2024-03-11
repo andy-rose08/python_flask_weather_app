@@ -5,6 +5,12 @@
   },
   "scripts": {
     "build-css": "npx tailwindcss -i ./static/css/styles.css -o ./static/css/styles.css",
-    "watch-css": "nodemon -e css -x \"npm run build-css\""
+    "watch-css": "nodemon -e css -x \"npm run build-css\"",
+
+      "dev": "next",
+      "build": "next build",
+      "export": "next export",
+      "deploy": "npm run build && npm run export",
+      "start": "next start"
   }
 }
