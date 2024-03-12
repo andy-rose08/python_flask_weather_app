@@ -4,6 +4,7 @@ from weather import get_current_weather, get_location, get_forecast as get_weath
 from flask_frozen import Freezer
 from waitress import serve
 import sys
+import os
 
 app = Flask(__name__)
 freezer = Freezer(app)
@@ -11,16 +12,19 @@ freezer = Freezer(app)
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", API_KEY=os.getenv("API_KEY"))
 
-@app.route("/weather")
+@app.route("/weather", methods=["GET", "POST"])
 def get_weather():
-    city = request.args.get("city")
-    if city is None or not bool(city.strip()):
+    if request.method == "POST":
+        city = request.form.get("city")
+    else:
         city = get_location(request.remote_addr)
+    if city is None or not bool(city.strip()):
+        city = "San Jose"
     weather_data = get_current_weather(city)
-    if not weather_data["cod"] == 200:
-        return render_template("city404.html")
+    if weather_data is None or weather_data.get("cod") != 200:
+        return render_template("city404.html",API_KEY=os.getenv("API_KEY"))
     icon_code = weather_data["weather"][0]["icon"]
     icon_url = "http://openweathermap.org/img/w/" + icon_code + ".png"
     return render_template(
@@ -30,8 +34,8 @@ def get_weather():
         temp=f"{weather_data['main']['temp']:.1f}",
         feels_like=f"{weather_data['main']['feels_like']:.1f}",
         icon_code=icon_url,
+        API_KEY=os.getenv("API_KEY")
     )
-
 
 @app.route("/forecast")
 def get_forecast():
@@ -39,8 +43,8 @@ def get_forecast():
     if city is None or not bool(city.strip()):
         city = "San Jose"
     forecast_data = get_weather_forecast(city)
-    if not forecast_data["cod"] == "200":
-        return render_template("city404.html")
+    if forecast_data is None or forecast_data.get("cod") != "200":
+        return render_template("city404.html",API_KEY=os.getenv("API_KEY"))
 
     # Divide the forecast into pages of 5 items each
     forecast = forecast_data["list"]
@@ -64,7 +68,7 @@ def get_forecast():
 
 @app.route("/city404")
 def all_routes():
-    return render_template("city404.html")
+    return render_template("city404.html", API_KEY=os.getenv("API_KEY"))
 
 
 if __name__ == "__main__":

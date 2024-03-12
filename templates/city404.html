@@ -8,6 +8,9 @@
       href="{{url_for('static',filename='css/styles.css')}}"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
   <body
     class="bg-blue-200 min-h-screen flex flex-col items-center justify-center"
@@ -30,13 +33,50 @@
             id="city"
           />
           <button
-            class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+            class="flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-blue-400 hover:border-blue-600 text-sm border-4 text-white py-1 px-2 rounded-full"
             type="submit"
           >
-            Check Weather Conditions
+            Search again
           </button>
         </div>
       </form>
     </div>
+
+    <script>
+      $( function() {
+        function log( message ) {
+          $( "<div>" ).text( message ).prependTo( "#log" );
+          $( "#log" ).scrollTop( 0 );
+        }
+
+        $( "#city" ).autocomplete({
+          source: function( request, response ) {
+            $.ajax( {
+              url: "http://api.openweathermap.org/data/2.5/find",
+              dataType: "jsonp",
+              data: {
+                q: request.term,
+                type: "like",
+                sort: "population",
+                cnt: "10",
+                appid: "{{API_KEY}}", // Ahora puedes usar {{API_KEY}} aquí
+              },
+              success: function( data ) {
+                response( data.list.map(function(item) {
+                  return {
+                    label: item.name + ", " + item.sys.country,
+                    value: item.name
+                  };
+                }));
+              }
+            } );
+          },
+          minLength: 2,
+          select: function( event, ui ) {
+            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
+          }
+        } );
+      } );
+    </script>
   </body>
 </html>
