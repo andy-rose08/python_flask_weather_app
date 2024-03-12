@@ -26,7 +26,7 @@ def get_weather():
     if weather_data is None or weather_data.get("cod") != 200:
         return render_template("city404.html",API_KEY=os.getenv("API_KEY"))
     icon_code = weather_data["weather"][0]["icon"]
-    icon_url = "http://openweathermap.org/img/w/" + icon_code + ".png"
+    icon_url = "https://openweathermap.org/img/w/" + icon_code + ".png"
     return render_template(
         "weather.html",
         title=weather_data["name"],
