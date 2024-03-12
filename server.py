@@ -68,4 +68,7 @@ def all_routes():
 
 
 if __name__ == "__main__":
-    serve(app, host="0.0.0.0", port=8000)  # Run the application
+    if len(sys.argv) > 1 and sys.argv[1] == "build":
+        freezer.freeze()  # Build the static files
+    else:
+        serve(app, host="0.0.0.0", port=8000)  # Run the application
