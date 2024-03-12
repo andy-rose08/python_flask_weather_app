@@ -65,10 +65,3 @@ def get_forecast():
 @app.route("/city404")
 def all_routes():
     return render_template("city404.html")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "build":
-        freezer.freeze()  # Build the static files
-    else:
-        serve(app, host="0.0.0.0", port=8000)  # Run the application
