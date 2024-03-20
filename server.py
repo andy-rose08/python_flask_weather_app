@@ -25,17 +25,15 @@ def get_weather():
         else:
             city = request.args.get("city")  # Get city from URL parameters
 
-        if city is None:  # If city is still None, proceed with the default behavior
+        if not city:  # If city is empty or None, use IP's city
             city_data = get_location(request.remote_addr)
             if isinstance(city_data, dict):
                 city = city_data.get("city")
             else:
                 city = city_data
 
-        if city is None:
+        if city is None or not isinstance(city, str) or not city.strip():
             city = "San Jose"
-        elif not isinstance(city, str) or not bool(city.strip()):
-            return "Invalid city name", 400
 
         weather_data = get_current_weather(city)
         if weather_data is None or weather_data.get("cod") != 200:
