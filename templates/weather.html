@@ -4,15 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{title}} Weather</title>
-    <link href="{{url_for('static',filename='css/styles.css')}}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link
+      href="{{url_for('static',filename='css/styles.css')}}"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   </head>
-  <body class="bg-blue-200 min-h-screen flex flex-col items-center justify-center">
+  <body
+    class="bg-blue-200 min-h-screen flex flex-col items-center justify-center"
+  >
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
       <div class="mb-4 flex items-center">
-        <img src="{{ icon_code }}" alt="{{ title }}" class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-full" />
+        <img
+          src="{{ icon_code }}"
+          alt="{{ title }}"
+          class="w-20 h-20 md:w-24 md:h-24 object-cover rounded-full"
+        />
         <div class="ml-4">
           <h1 class="font-bold text-xl mb-2">{{title}}'s Weather</h1>
           <p class="text-gray-700 text-base">{{status}} and {{temp}} °C</p>
@@ -21,7 +33,13 @@
       </div>
       <form action="/weather" method="POST" class="mb-4">
         <div class="flex items-center border-b border-b-2 border-teal-500 py-2">
-          <input class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" name="city" placeholder="Please Enter a City Name" id="city" />
+          <input
+            class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+            type="text"
+            name="city"
+            placeholder="Please Enter a City Name"
+            id="city"
+          />
           <button
             class="flex-shrink-0 bg-blue-500 hover:bg-blue-700 border-blue-400 hover:border-blue-600 text-sm border-4 text-white py-1 px-2 rounded-full"
             type="submit"
@@ -31,20 +49,24 @@
         </div>
       </form>
       <div class="flex justify-between mt-4">
-        <a href="{{ url_for('get_forecast', city=title) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Forecast</a>
+        <a
+          href="{{ url_for('get_forecast', city=title) }}"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+          >Forecast</a
+        >
       </div>
     </div>
 
     <script>
-      $( function() {
-        function log( message ) {
-          $( "<div>" ).text( message ).prependTo( "#log" );
-          $( "#log" ).scrollTop( 0 );
+      $(function () {
+        function log(message) {
+          $("<div>").text(message).prependTo("#log");
+          $("#log").scrollTop(0);
         }
 
-        $( "#city" ).autocomplete({
-          source: function( request, response ) {
-            $.ajax( {
+        $("#city").autocomplete({
+          source: function (request, response) {
+            $.ajax({
               url: "https://api.openweathermap.org/data/2.5/find",
               dataType: "jsonp",
               data: {
@@ -54,22 +76,24 @@
                 cnt: "10",
                 appid: "{{API_KEY}}", // Ahora puedes usar {{API_KEY}} aquí
               },
-              success: function( data ) {
-                response( data.list.map(function(item) {
-                  return {
-                    label: item.name + ", " + item.sys.country,
-                    value: item.name
-                  };
-                }));
-              }
-            } );
+              success: function (data) {
+                response(
+                  data.list.map(function (item) {
+                    return {
+                      label: item.name + ", " + item.sys.country,
+                      value: item.name,
+                    };
+                  })
+                );
+              },
+            });
           },
           minLength: 2,
-          select: function( event, ui ) {
-            log( "Selected: " + ui.item.value + " aka " + ui.item.id );
-          }
-        } );
-      } );
+          select: function (event, ui) {
+            log("Selected: " + ui.item.value + " aka " + ui.item.id);
+          },
+        });
+      });
     </script>
   </body>
 </html>
