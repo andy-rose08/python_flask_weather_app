@@ -19,9 +19,9 @@
         >Home</a
       >
       <a
-        href="{{ url_for('get_weather', city=title) }}"
+        href="{{ url_for('get_weather', city=current_city) }}"
         class="border-blue-700 border-8 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        >Back to Weather</a
+        >Back to {{current_city}}'s Weather</a
       >
     </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
