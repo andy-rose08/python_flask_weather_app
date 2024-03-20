@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{title}} Forecast</title>
+    <title>{{ title }} Forecast</title>
     <link
-      href="{{url_for('static',filename='css/styles.css')}}"
+      href="{{ url_for('static', filename='css/styles.css') }}"
       rel="stylesheet"
     />
   </head>
@@ -21,28 +21,28 @@
       <a
         href="{{ url_for('get_weather', city=current_city) }}"
         class="border-blue-700 border-8 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-        >Back to {{current_city}}'s Weather</a
+        >Back to {{ current_city }}'s Weather</a
       >
     </div>
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
       <div class="mb-4">
-        <h1 class="font-bold text-xl mb-2">{{title}}'s Forecast</h1>
+        <h1 class="font-bold text-xl mb-2">{{ title }}'s Forecast</h1>
         {% for item in forecast %}
         <div class="forecast-item">
           <img
-            src="https://openweathermap.org/img/w/{{item.weather[0].icon}}.png"
-            alt="{{item.weather[0].description}}"
+            src="https://openweathermap.org/img/w/{{ item.weather[0].icon }}.png"
+            alt="{{ item.weather[0].description }}"
           />
           <p class="text-gray-700 text-base">
-            {{item.dt_txt}}: {{item.weather[0].description}}, {{item.main.temp}}
-            °C
+            {{ item.dt_txt }}: {{ item.weather[0].description }}, {{
+            item.main.temp }} °C
           </p>
         </div>
         {% endfor %}
         <div class="flex justify-between mt-4">
           {% if current_page > 1 %}
           <a
-            href="{{ url_for('get_forecast', page=current_page-1) }}"
+            href="{{ url_for('get_forecast', city=current_city, page=current_page-1) }}"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             >Previous</a
           >
@@ -53,7 +53,7 @@
           >
           {% endif %} {% if current_page < total_pages %}
           <a
-            href="{{ url_for('get_forecast', page=current_page+1) }}"
+            href="{{ url_for('get_forecast', city=current_city, page=current_page+1) }}"
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
             >Next</a
           >
